@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    
+</head>
+<body>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    flex-direction: column; /* Allow header, main content, and footer to stack */
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    background: linear-gradient(135deg, #e68871, #9b59b6); /* Updated gradient */
+}
+
+header {
+    width: 100%;
+    background-color: #e60000; /* Header background color */
+    padding: 15px 0; /* Padding for header */
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px; /* Max width for nav */
+    margin: 0 auto; /* Center nav */
+}
+
+.logo {
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    margin-left: 20px; /* Margin for logo */
+}
+
+nav ul {
+    list-style-type: none;
+    display: flex;
+    margin-right: 20px; /* Margin for right side */
+}
+
+nav ul li {
+    margin-right: 15px; /* Space between nav items */
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+nav ul li a:hover {
+    text-decoration: underline; /* Underline on hover */
+}
+
+.signin-section {
+    max-width: 700px;
+    width: 100%;
+    background-color: #fff; /* Changed to white */
+    padding: 25px 30px;
+    border-radius: 5px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+    margin: 20px; /* Margin for spacing */
+}
+
+.signin-section h2 {
+    text-align: center; /* Center the heading */
+    font-size: 25px;
+    font-weight: 500;
+    margin-bottom: 20px; /* Space below heading */
+}
+
+.signin-section form {
+    display: flex;
+    flex-direction: column; /* Stack form elements */
+}
+
+.signin-section label {
+    margin-bottom: 5px; /* Space below labels */
+    font-weight: 500; /* Bold labels */
+}
+
+.signin-section input[type="email"],
+.signin-section input[type="password"] {
+    height: 45px;
+    width: 100%;
+    outline: none;
+    font-size: 16px;
+    border-radius: 5px;
+    padding-left: 15px;
+    border: 1px solid #ccc;
+    border-bottom-width: 2px;
+    transition: all 0.3s ease;
+    margin-bottom: 15px; /* Space below inputs */
+}
+
+.signin-section input[type="email"]:focus,
+.signin-section input[type="password"]:focus {
+    border-color: #9b59b6; /* Change border color on focus */
+}
+
+.signin-section button {
+    height: 45px;
+    width: 100%;
+    border-radius: 5px;
+    border: none;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #ec8947, #e6702c);
+}
+
+.signin-section button:hover {
+    background: linear-gradient(-135deg, #ee5122, #dd3f00); /* Change background on hover */
+}
+
+.additional-links {
+    text-align: center; /* Center additional links */
+    margin-top: 15px; /* Space above links */
+}
+
+.additional-links a {
+    color: #007BFF; /* Link color */
+    text-decoration: none;
+}
+
+.additional-links a:hover {
+    text-decoration: underline; /* Underline on hover */
+}
+
+footer {
+    width: 100%;
+    background-color: #e60000; /* Footer background color */
+    color: white;
+    text-align: center;
+    padding: 10px 0; /* Padding for footer */
+    position: relative; /* Positioning for footer */
+    bottom: 0; /* Align to bottom */
+}
+
+footer p {
+    margin: 0; /* Remove margin */
+}
+
+footer ul {
+    list-style: none; /* Remove bullet points */
+    display: flex;
+    justify-content: center; /* Center footer links */
+    padding: 0; /* Remove padding */
+}
+
+footer ul li {
+    margin: 0 10px; /* Space between footer links */
+}
+
+footer ul li a {
+    color: white; /* Link color */
+    text-decoration: none; /* Remove underline */
+}
+
+footer ul li a:hover {
+    text-decoration: underline; /* Underline on hover */
+}
+
+@media(max-width: 584px) {
+    .signin-section {
+        max-width: 100%; /* Full width on small screens */
+    }
+}
+    </style>
+
+    <section class="signin-section">
+        <center><h2>Sign In</h2></center>
+        <form id="signin-form" action="signin-process.php" method="POST">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+
+            <button type="submit">Sign In</button>
+        </form>
+
+        <div class="additional-links">
+            <p>Don't have an account? <a href="/registration">Register Now</a></p>
+            <p>Forgot your password? <a href="/reset-password">Reset Password</a></p>
+        </div>
+    </section>
+
+    
+</body>
+</html>

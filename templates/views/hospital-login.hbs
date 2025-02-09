@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hospital Registration</title>
+  <link rel="stylesheet" href="/css/hl_reg.css">
+</head>
+<body>
+  <div class="container">
+    <div class="title">Hospital Registration</div>
+    <div class="content">
+      <form action="/hospital-registration" method="POST"> <!-- Updated action URL -->
+        <div class="user-details">
+          <div class="input-box">
+            <span class="details">Hospital Name</span>
+            <input type="text" name="hospital_name" placeholder="Enter Hospital name" required>
+          </div>
+          <div class="input-box">
+            <span class="details">Hospital Id</span>
+            <input type="text" name="hospital_id" placeholder="Enter Hospital Id" required>
+          </div>
+          <div class="input-box">
+            <span class="details">Hospital Address</span>
+            <input type="text" name="hospital_address" placeholder="Enter Hospital Address" required>
+          </div>
+          <div class="input-box">
+            <span class="details">Hospital Email</span>
+            <input type="email" name="hospital_email" placeholder="Enter your Hospital Email" required>
+          </div>
+          <div class="input-box">
+            <span class="details">Name of Applicant</span>
+            <input type="text" name="applicant_name" placeholder="Name of applicant (in charge)" required>
+          </div>
+          <div class="input-box">
+            <span class="details">Contact Number</span>
+            <input type="tel" name="contact_number" placeholder="Enter Contact number (in charge)" required>
+          </div>
+          <div class="input-box">
+            <span class="details">Password</span>
+            <input type="password" name="password" id="password" placeholder="Enter your password" required>
+            <span class="eye-icon" id="togglePassword1">🙈</span> <!-- Eye icon for password -->
+          </div>
+          <div class="input-box">
+            <span class="details">Confirm Password</span>
+            <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm your password" required>
+            <span class="eye-icon" id="togglePassword2">🙈</span> <!-- Eye icon for confirm password -->
+          </div>
+        </div>
+        <div class="button">
+          <input type="submit" value="Register">
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    document.querySelector("form").addEventListener("submit", function(event) {
+      let password = document.getElementById("password").value;
+      let confirmPassword = document.getElementById("confirm_password").value;
+
+      if (password !== confirmPassword) {
+        alert("Passwords do not match!");
+        event.preventDefault();
+      }
+    });
+
+    // Toggle password visibility
+    const togglePassword1 = document.getElementById("togglePassword1");
+    const togglePassword2 = document.getElementById("togglePassword2");
+    const passwordField = document.getElementById("password");
+    const confirmPasswordField = document.getElementById("confirm_password");
+
+    togglePassword1.addEventListener("click", function() {
+      const type = passwordField.getAttribute("type") === "password" ? "text" : "password";
+      passwordField.setAttribute("type", type);
+      this.textContent = type === "password" ? "🙈" : "👁️"; // Change icon based on visibility
+    });
+
+    togglePassword2.addEventListener("click", function() {
+      const type = confirmPasswordField.getAttribute("type") === "password" ? "text" : "password";
+      confirmPasswordField.setAttribute("type", type);
+      this.textContent = type === "password" ? "🙈" : "👁️"; // Change icon based on visibility
+    });
+  </script>
+</body>
+</html>

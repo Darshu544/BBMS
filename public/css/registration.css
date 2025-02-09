@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #e68871, #9b59b6);
+      position: relative;
+    }
+    .container {
+      background: #fff;
+      padding: 30px 40px;
+      border-radius: 10px;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+      text-align: center;
+    }
+    h2 {
+      margin-bottom: 20px;
+      font-size: 22px;
+      font-weight: 600;
+    }
+    .role-btn {
+      width: 200px;
+      margin: 10px 0;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: linear-gradient(135deg, #ec8947, #e6702c);
+      color: white;
+    }
+    .role-btn:hover {
+      background: linear-gradient(-135deg, #ee5122, #dd3f00);
+    }
+
+    .heartbeat-top {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      width: 350px;
+    }
+
+    .heartbeat-bottom {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      width: 350px;
+    }

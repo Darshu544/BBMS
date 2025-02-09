@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Bank Management</title>
+    <link rel="shortcut icon" href="/images/2nd.jpeg" type="image/x-icon">
+    <link rel="stylesheet" href="/css/style.css"> <!-- Corrected path -->
+</head>
+<body>
+    {{> navbar}} <!-- Assuming you have a navbar partial -->
+
+    <!--<header>
+        <nav>
+            <div class="logo">BloodInNeed</div>
+            <ul>
+                <li><a href="#index">Home</a></li>
+                <li><a href="#about-us">About Us</a></li>
+                <li><a href="#why-donate">Why We Donate Blood</a></li>
+                <li><a href="request.html">Blood Request</a></li>
+            </ul>
+        </nav>
+    </header>-->
+    
+    <section class="index" id="index"></section>
+    <section class="main-banner">
+      <h1>Donate Blood, Save Lives</h1>
+      <p>Every drop counts! Help us save lives today.</p><br>
+      <a href="registration" class="cta-button">Register Now</a>
+      <br><br>
+  
+      <!-- Sign-In Link -->
+      <p class="sign-in-link">Already have an account? <a href="/signin">Sign In</a></p>
+  </section>
+    <section class="eligibility-benefits">
+      <div class="eligibility">
+          <h2>Eligibility for Blood Donation</h2>
+          <ul>
+              <li>Must be at least 18 years old and weigh at least 50kg.</li>
+              <li>In good health and free from infections.</li>
+              <li>Have not donated blood in the past 3 months.</li>
+              <li>No history of chronic diseases.</li>
+              <li>Must be able to pass a simple physical examination.</li>
+          </ul>
+      </div>
+  
+      <div class="benefits">
+          <h2>Benefits of Donating Blood</h2>
+          <ul>
+              <li>Helps save lives by providing critical blood supplies.</li>
+              <li>Donating blood can reduce the risk of certain diseases.</li>
+              <li>Improves the health of the donor by stimulating the production of new blood cells.</li>
+              <li>It’s a great way to help your community.</li>
+              <li>Each donation can help save up to three lives!</li>
+          </ul>
+      </div>
+  </section>
+    <section class="about-us" id="about-us">
+        
+          <div class="about-us-content">
+            <h2>About Us</h2>
+            <section class="about-us">
+                
+                  <div class="about-us-content">
+                    <p>BloodINeed is a website designed to provide a secure and efficient platform for a blood bank management system.</p>
+                    <p>This initiative is led by a team of five second-year Computer Science students, driven by their commitment to addressing the challenges in blood donation and management.</p>
+                    <p>The website is currently under development, with efforts focused on delivering a user-friendly and impactful solution.</p>
+              
+                    <br>
+              
+                    <h3>Our Mission</h3>
+                    <br>
+                    <ol>
+                      <li>To develop a safe platform for blood donation management</li>
+                      <li>To ensure reliable communication between donors and patients while maintaining privacy</li>
+                      <li>To make it easier to communicate with specialized doctors</li>
+                      <li>To allow users to contact admins directly in emergencies</li>
+                      <li>To provide a dynamic database that stores donors' information and facilitates easy communication</li>
+                    </ol>
+                    <br>
+                    <h4>Special thanks to our guide Mrs. Neeta Ranade</h4>
+                    <p>For guiding us throughout the project of helping with a Blood Bank Management System.</p>
+                  </div>
+                  
+                </div>
+              </section>
+              
+          </div>
+         
+      </section>
+      
+  
+    <section class="donate-section" id="why-donate">
+        <div class="content">
+
+          <h2 class="heading">WHY SHOULD I DONATE BLOOD?</h2>
+          <p>
+            Blood is the most precious gift that anyone can give to another person - the gift of life.
+            A decision to donate your blood can save a life, or even several if your blood is separated
+            into its components - red cells, platelets, and plasma - which can be used individually for
+            patients with specific conditions. Safe blood saves lives and improves health. Blood
+            transfusion is needed for:
+          </p>
+          <ul>
+            <li>Women with complications of pregnancy, such as ectopic pregnancies and haemorrhage before, during, or after childbirth.</li>
+            <li>Children with severe anaemia often resulting from malaria or malnutrition.</li>
+            <li>People with severe trauma following man-made and natural disasters.</li>
+          </ul>
+          <p>
+            Many complex medical and surgical procedures and cancer patients.
+
+It is also needed for regular transfusions for people with conditions such as thalassaemia and sickle cell disease and is used to make products such as clotting factors for people with haemophilia. There is a constant need for regular blood supply because blood can be stored for only a limited time before use. Regular blood donations by a sufficient number of healthy people are needed to ensure that safe blood will be available whenever and wherever it is needed.
+          </p>
+        </div>
+        <div class="image">
+          <img src="assets/Photoroom-20241230_152238.png" alt="Blood Donation Illustration">
+        </div>
+        
+      </section>
+      
+      <div class="container1">
+            <img src="assets/Photoroom-20241230_135050.png" alt="Blood Donation table">
+            
+        <table border="0" cellpadding='20' align="center">
+        <tr>
+        <td colspan=3 align="center" bgcolor="red" style="color: aliceblue;" style="font-size: 50px;">Compatible Blood Type Donors</td>
+        </tr>
+        <tr>
+        <td align="center">Blood Type</td>
+        <td align="center">Donate Blood To</td>
+        <td align="center">Receive Blood From</td>
+        </tr>
+        <tr>
+        <td>A+</td>
+        <td>A+  AB+</td>
+        <td>A+  A-  O+  O-</td>
+        </tr>
+        <tr>
+         <td>O+</td>
+        <td>O+  A+  B+  AB+</td>
+        <td>0+  O-</td>
+        </tr>
+        <tr>
+            <td>B+</td>
+            <td>B+  AB+</td>
+            <td>B+  B-  O+  O-</td>
+            </tr>
+        <tr>
+               <td>AB+</td>
+                <td>AB+</td>
+                <td>EveryOne</td>
+                </tr>  
+                <tr>
+                    <td> A- </td>
+                    <td> A+  A-  AB+  AB- </td>
+                    <td>  A-  O- </td>
+                    </tr>
+                    <tr>
+                    <td> O- </td>
+                    <td> Everyone </td>
+                    <td>  O- </td>
+                    </tr>
+                    <tr>
+                    <td> B- </td>
+                    <td> B+  B  -AB+  AB- </td>
+                    <td>  B-  O- </td>
+                    </tr>
+                    <tr> 
+                    <td> AB- </td>
+                    <td> AB+  AB- </td>
+                    <td> AB-  A-  B-  O- </td>
+                    </tr>          
+        </table> 
+        </div>
+        
+        <div>
+            <p class="slogan">Be The Reason For Someone's Heartbeats</p>
+        </div>
+    
+    <footer>
+        <p>&copy; 2024 Blood Bank Management System | All Rights Reserved</p>
+        <ul>
+            <li><a href="/privacy">Privacy Policy</a></li>
+            <li><a href="/terms">Terms of Service</a></li>
+        </ul>
+    </footer>
+</body>
+</html>

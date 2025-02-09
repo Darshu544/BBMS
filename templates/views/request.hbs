@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <title>Blood Request Form</title>
+    <link rel="stylesheet" href="/css/request.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+<body>
+  <div class="container">
+    <div class="title">Blood Request</div>
+    <div class="content">
+        <form name="f1" method="POST" action="/request">
+            <div class="user-details">
+                <div class="input-box">
+                    <span class="details">Full Name</span>
+                    <input type="text" placeholder="Enter your name" name="full_name" required>
+                </div>
+                <div class="input-box">
+                    <span class="details">Email</span>
+                    <input type="email" placeholder="Enter your email" name="email" required>
+                </div>
+                <div class="input-box">
+                    <span class="details">District</span>
+                    <select id="district" name="district" onchange="updateCities()" required>
+                        <option value="">-- Select District --</option>
+                    </select>
+                </div>
+                <div class="input-box">
+                    <span class="details">City</span>
+                    <select id="city" name="city" required>
+                        <option value="">-- Select City --</option>
+                    </select>
+                </div>
+                <div class="input-box">
+                    <span class="details">Blood Group</span>
+                    <select name="blood_groups" id="blood_groups" required>
+                        <option value="">Select Blood Group</option>
+                        <option value="A+">A+</option>
+                        <option value="B+">B+</option>
+                        <option value="AB+">AB+</option>
+                        <option value="O+">O+</option>
+                        <option value="A-">A-</option>
+                        <option value="B-">B-</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O-">O-</option>
+                    </select>
+                </div>
+                <div class="input-box">
+                    <span class="details">Phone Number</span>
+                    <input type="tel" placeholder="Enter phone number" pattern="[0-9]{10}" name="mob_no" required>
+                </div>
+            </div>
+            <div class="gender-details">
+                <span class="gender-title">Gender</span>
+                <div class="category">
+                    <label>
+                        <input type="radio" name="gender" value="Male" required>
+                        <span class="gender">Male</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="gender" value="Female">
+                        <span class="gender">Female</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="gender" value="Other">
+                        <span class="gender">Other</span>
+                    </label>
+                </div>
+            </div>
+            <div class="button">
+                <input type="submit" value="Send Request">
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Maharashtra district-wise cities data
+    const cityData = {
+        "Ahmednagar": ["Ahmednagar", "Shrirampur", "Rahuri", "Sangamner"],
+        "Akola": ["Akola", "Murtijapur", "Balapur", "Telhara"],
+        "Amravati": ["Amravati", "Chandur", "Daryapur", "Morshi"],
+        "Aurangabad": ["Aurangabad", "Paithan", "Kannad", "Gangapur"],
+        "Beed": ["Beed", "Majalgaon", "Parli", "Georai"],
+        "Bhandara": ["Bhandara", "Tumsar", "Sakoli", "Pauni"],
+        "Buldhana": ["Buldhana", "Khamgaon", "Malkapur", "Mehkar"],
+        "Chandrapur": ["Chandrapur", "Ballarpur", "Rajura", "Warora"],
+        "Dhule": ["Dhule", "Shirpur", "Sakri", "Sindkheda"],
+        "Gadchiroli": ["Gadchiroli", "Aheri", "Desaiganj", "Armori"],
+        "Gondia": ["Gondia", "Tirora", "Amgaon", "Deori"],
+        "Hingoli": ["Hingoli", "Basmath", "Sengaon", "Kalamnuri"],
+        "Jalgaon": ["Jalgaon", "Bhusawal", "Chopda", "Yawal"],
+        "Jalna": ["Jalna", "Ambad", "Partur", "Bhokardan"],
+        "Kolhapur": ["Kolhapur", "Ichalkaranji", "Gadhinglaj", "Panhala"],
+        "Latur": ["Latur", "Udgir", "Nilanga", "Ahmadpur"],
+        "Mumbai City": ["Mumbai", "Colaba", "Marine Lines", "Fort"],
+        "Mumbai Suburban": ["Andheri", "Borivali", "Dadar", "Bandra"],
+        "Nagpur": ["Nagpur", "Ramtek", "Katol", "Umred"],
+        "Nanded": ["Nanded", "Kandhar", "Degloor", "Hadgaon"],
+        "Nandurbar": ["Nandurbar", "Shahada", "Taloda", "Akkalkuwa"],
+        "Nashik": ["Nashik", "Malegaon", "Satana", "Deolali"],
+        "Osmanabad": ["Osmanabad", "Tuljapur", "Paranda", "Kalamb"],
+        "Palghar": ["Palghar", "Vasai", "Dahanu", "Boisar"],
+        "Parbhani": ["Parbhani", "Pathri", "Jintur", "Gangakhed"],
+        "Pune": ["Pune", "Pimpri-Chinchwad", "Hinjewadi", "Kothrud"],
+        "Raigad": ["Alibag", "Panvel", "Pen", "Uran"],
+        "Ratnagiri": ["Ratnagiri", "Chiplun", "Dapoli", "Khed"],
+        "Sangli": ["Sangli", "Miraj", "Tasgaon", "Kavthe Mahankal"],
+        "Satara": ["Satara", "Karad", "Mahabaleshwar", "Panchgani"],
+        "Sindhudurg": ["Sawantwadi", "Malvan", "Kudal", "Vengurla"],
+        "Solapur": ["Solapur", "Pandharpur", "Akkalkot", "Mangalwedha"],
+        "Thane": ["Thane", "Kalyan", "Dombivli", "Ulhasnagar"],
+        "Wardha": ["Wardha", "Hinganghat", "Deoli", "Arvi"],
+        "Washim": ["Washim", "Karanja", "Risod", "Malegaon"],
+        "Yavatmal": ["Yavatmal", "Pusad", "Wani", "Umarkhed"]
+    };
+
+    function populateDistricts() {
+        const districtSelect = document.getElementById("district");
+        Object.keys(cityData).forEach(district => {
+            let option = document.createElement("option");
+            option.value = district;
+            option.textContent = district;
+            districtSelect.appendChild(option);
+        });
+    }
+
+    function updateCities() {
+        const citySelect = document.getElementById("city");
+        citySelect.innerHTML = '<option value="">-- Select City --</option>';
+        cityData[document.getElementById("district").value]?.forEach(city => {
+            let option = document.createElement("option");
+            option.value = city;
+            option.textContent = city;
+            citySelect.appendChild(option);
+        });
+    }
+
+    window.onload = populateDistricts;
+</script>
+</body>
+</html>

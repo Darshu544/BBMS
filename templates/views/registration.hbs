@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Select Role</title>
+  <link rel="stylesheet" href="/css/registration.css">
+</head>
+<body>
+  <img src="assets/1st.png" alt="heartbeat" class="heartbeat-top">
+  <img src="assets/flip.png" alt="heartbeat" class="heartbeat-bottom">
+  <div class="container">
+    <h2>Select Role</h2>
+    <button class="role-btn" onclick="redirectToLogin('donor')">Donor</button><br>
+    <button class="role-btn" onclick="redirectToLogin('hospital')">Hospital</button><br>
+  </div>
+
+ <script>
+    function redirectToLogin(role) {
+        if (role === 'donor') {
+            window.location.href = '/donor-login'; // Redirect to the donor login route
+        } else if (role === 'hospital') {
+            window.location.href = '/hospital-login'; // Assuming you have a similar route for hospitals
+        }
+    }
+</script>
+</body>
+</html>
