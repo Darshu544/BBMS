@@ -248,7 +248,7 @@ app.post("/hospital-registration", async (req, res) => {
 
 // Reset password
 app.post("/reset-password", async (req, res) => {
-    const { email, newPassword, confirmPassword } = req.body;
+    const { userType, email, newPassword, confirmPassword } = req.body;
 
     if (newPassword !== confirmPassword) {
         return res.status(400).json({ message: "Passwords do not match." });
@@ -260,7 +260,13 @@ app.post("/reset-password", async (req, res) => {
     }
 
     try {
-        const user = await Donor.findOne({ email });
+        let user;
+        if (userType === 'donor') {
+            user = await Donor.findOne({ email });
+        } else if (userType === 'hospital') {
+            user = await Hospital.findOne({ hospital_email: email });
+        }
+
         if (!user) {
             return res.status(404).json({ message: "User  not found." });
         }
