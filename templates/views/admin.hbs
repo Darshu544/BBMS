@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Hospital and Donor Records</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            margin: 20px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: none; /* Hide by default */
+            transition: margin-left 0.3s ease;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #c9302c;
+        }
+
+        /* Hamburger Menu */
+        .hamburger {
+            font-size: 35px;
+            cursor: pointer;
+            position: absolute;
+            top: 90px;
+            left: 40px;
+            z-index: 10;
+            color: #a4100b;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 200px;
+            height: 100%;
+            background-color: #c9312cd9;
+            color: #c9302c;
+            padding-top: 20px;
+            display: none; /* Hide by default */
+            transition: left 0.3s ease;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 10px;
+            color: white;
+            text-decoration: none;
+            border-bottom: 1px solid #444;
+        }
+
+        .sidebar a:hover {
+            background-color: #c9302c;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 50px;
+            transition: margin-left 0.3s ease;
+        }
+
+        table th, table td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #c9302c; /* Red for headers */
+            color: white;
+            text-align: center;
+        }
+
+        table td {
+            background-color: #ffffff; /* White for data cells */
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f2f2f2; /* Light gray for even rows */
+        }
+
+        table tr:hover {
+            background-color: #ddd; /* Light gray hover effect for rows */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Hamburger Menu Button -->
+    <div class="hamburger" id="hamburgerButton" onclick="toggleSidebar()">☰</div>
+
+    <!-- Sidebar Menu -->
+    <div class="sidebar" id="sidebar">
+        <a href="javascript:void(0)" onclick="showDonorRecords()">Donor Records</a>
+        <a href="javascript:void(0)" onclick="showHospitalRecords()">Hospital Records</a>
+    </div>
+
+    <!-- Hospital Records Section -->
+    <div id="hospitalRecordsSection" class="container">
+        <h1>Hospital Records</h1>
+        <table id="hospitalRecordsTable">
+            <thead>
+                <tr>
+                    <th>Hospital ID</th>
+                    <th>Hospital Name</th>
+                    <th>Address</th>
+                    <th>Contact Number</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Hospital records will be inserted here -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Donor Records Section -->
+    <div id="donorRecordsSection" class="container">
+        <h1>Donor Records</h1>
+        <table id="donorRecordsTable">
+            <thead>
+                <tr>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Phone No</th>
+                    <th>Address</th>
+                    <th>Password</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Donor records will be inserted here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Toggle Sidebar visibility (Show/Hide)
+        function toggleSidebar() {
+            const sidebar = document.getElementById("sidebar");
+            const hamburgerButton = document.getElementById("hamburgerButton");
+
+            // If the sidebar is already visible, hide it
+            if (sidebar.style.display === "block") {
+                sidebar.style.display = "none";
+                hamburgerButton.style.display = "block";  // Show hamburger button
+            } else {
+                sidebar.style.display = "block";
+                hamburgerButton.style.display = "none";  // Hide hamburger button
+            }
+        }
+
+        // Show Hospital Records and hide the sidebar after selection
+        function showHospitalRecords() {
+            document.getElementById("hospitalRecordsSection").style.display = "block";
+            document.getElementById("donorRecordsSection").style.display = "none";
+            hideSidebar();  // Hide sidebar after selecting an option
+            fetch('/admin/hospital-records')
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.querySelector('#hospitalRecordsTable tbody');
+                    tableBody.innerHTML = ''; // Clear any existing rows
+
+                    data.forEach(record => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${record.hospital_id}</td>
+                            <td>${record.hospital_name}</td>
+                            <td>${record.hospital_address}</td>
+                            <td>${record.contact_number}</td>
+                            <td>${record.hospital_email}</td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Error fetching hospital records:', error));
+        }
+
+        
+
+        // Show Donor Records and hide the sidebar after selection
+function showDonorRecords() {
+    document.getElementById("donorRecordsSection").style.display = "block";
+    document.getElementById("hospitalRecordsSection").style.display = "none";
+    hideSidebar();  // Hide sidebar after selecting an option
+    fetch('/admin/donor-records') // This should match the route defined in app.js
+        .then(response => response.json())
+        .then(data => {
+            const tableBody = document.querySelector('#donorRecordsTable tbody');
+            tableBody.innerHTML = ''; // Clear any existing rows
+
+            data.forEach(record => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${record.fullname}</td>
+                    <td>${record.email}</td>
+                    <td>${record.phone}</td>
+                    <td>${record.city}</td>
+                    <td>${record.password}</td>
+                    
+                `;
+                tableBody.appendChild(row);
+            });
+        })
+        .catch(error => console.error('Error fetching donor records:', error));
+}
+
+
+        // Hide Sidebar
+        function hideSidebar() {
+            const sidebar = document.getElementById("sidebar");
+            const hamburgerButton = document.getElementById("hamburgerButton");
+            sidebar.style.display = "none";  // Hide the sidebar after selection
+            hamburgerButton.style.display = "block"; // Make sure hamburger is still visible
+        }
+
+        // Display Donor Records by default on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            showDonorRecords();
+        });
+    </script>
+
+</body>
+</html>

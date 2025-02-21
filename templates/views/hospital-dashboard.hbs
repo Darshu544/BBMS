@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Bank Management System</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js CDN -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #c9302c;
+        }
+
+        /* Hamburger Menu Button */
+        .dashboard-toggle-button {
+            font-size: 35px;
+            cursor: pointer;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+            color: #a4100b;
+        }
+
+        /* Sidebar */
+        .dashboard-nav {
+            position: fixed;
+            top: 0;
+            left: -200px; /* Initially hidden */
+            width: 200px;
+            height: 100%;
+            background-color: #c9312cd9;
+            color: #c9302c;
+            padding-top: 20px;
+            transition: left 0.3s ease;
+            z-index: 1000;
+        }
+
+        .dashboard-nav button {
+            background-color: #c9312c;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            text-align: left;
+            border-bottom: 1px solid #444;
+            cursor: pointer;
+        }
+
+        .dashboard-nav button:hover {
+            background-color: #c9302c;
+        }
+
+        /* Container */
+        .container {
+            margin: 20px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: none;
+            transition: margin-left 0.3s ease;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th, table td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #c9302c;
+            color: white;
+        }
+
+        table td {
+            background-color: #ffffff;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        table tr:hover {
+            background-color: #ddd;
+        }
+
+        .section-title {
+            background-color: #c9302c;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .back-button {
+            display: block;
+            width: 150px;
+            margin: 20px auto;
+            padding: 10px;
+            background-color: #c9302c;
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .back-button:hover {
+            background-color: #a4100b;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .approve-button, .reject-button {
+            background-color: #c9302c;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+
+        .approve-button:hover, .reject-button:hover {
+            background-color: #a4100b;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Blood Availability Section */
+        .blood-availability-section {
+            display: none;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        #blood-availability-chart {
+            width: 100%;
+            height: 400px;
+        }
+
+        /* Update Button */
+        .update-button {
+            position: fixed;
+            bottom: 140px;
+            right: 25px;
+            padding: 10px 20px;
+            background-color: #c9302c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            z-index: 1002;
+        }
+
+        .update-button:hover {
+            background-color: #a4100b;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Blood Bank Management System</h1>
+
+    <!-- Hamburger Menu Button -->
+    <div class="dashboard-toggle-button" id="hamburgerButton" onclick="toggleDashboard()">☰</div>
+
+    <!-- Sidebar Menu -->
+    <div class="dashboard-nav" id="dashboard-nav">
+        <button onclick="showDonors()">Donors List</button>
+        <button onclick="showReceivers()">Receivers List</button>
+        <button onclick="showBloodAvailability()">Blood Availability</button> <!-- New button for Blood Availability -->
+    </div>
+
+    <!-- Donors List Section -->
+    <div id="donors-section" class="container" style="display: block;">
+        <div class="section-title">
+            <h2>Registered Donors For Appointment</h2>
+        </div>
+        <table id="donors-table">
+            <thead>
+                <tr>
+                    <th>Donor Name</th>
+                    <th>Blood Group</th>
+                    <th>Contact Number</th>
+                    <th>Appointment Date</th>
+                    <th>Appointment Day</th>
+                    <th>Appointment Time</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <!-- Receivers List Section -->
+    <div id="receivers-section" class="container hidden">
+        <div class="section-title">
+            <h2>Registered Receivers For Appointment</h2>
+        </div>
+        <table id="receivers-table">
+            <thead>
+                <tr>
+                    <th>Receiver Name</th>
+                    <th>Blood Group</th>
+                    <th>Contact Number</th>
+                    <th>Appointment Date</th>
+                    <th>Appointment Day</th>
+                    <th>Appointment Time</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <!-- Blood Availability Section -->
+    <div id="blood-availability-section" class="blood-availability-section">
+        <div class="section-title">
+            <h2>Blood Availability</h2>
+        </div>
+        <canvas id="blood-availability-chart"></canvas> <!-- Chart.js Canvas -->
+        <button id="update-blood-availability" class="update-button" onclick="updateBloodAvailability()">Update Blood Availability</button> <!-- New Update button -->
+    </div>
+
+    <a href="javascript:history.back()" class="back-button">Go Back</a>
+
+    <script>
+        // Toggle visibility of dashboard
+        function toggleDashboard() {
+            const dashboardNav = document.getElementById("dashboard-nav");
+            const toggleButton = document.getElementById("hamburgerButton");
+
+            if (dashboardNav.style.left === "0px") {
+                dashboardNav.style.left = "-200px"; // Hide sidebar
+            } else {
+                dashboardNav.style.left = "0"; // Show sidebar
+            }
+        }
+
+        // Function to show Donor Dashboard
+        function showDonors() {
+            document.getElementById("donors-section").style.display = "block";
+            document.getElementById("receivers-section").style.display = "none";
+            document.getElementById("blood-availability-section").style.display = "none"; // Hide blood availability
+            toggleDashboard(); // Hide the menu after selecting
+            fetchDonors();
+        }
+
+        // Function to show Receiver Dashboard
+        function showReceivers() {
+            document.getElementById("receivers-section").style.display = "block";
+            document.getElementById("donors-section").style.display = "none";
+            document.getElementById("blood-availability-section").style.display = "none"; // Hide blood availability
+            toggleDashboard(); // Hide the menu after selecting
+            fetchReceivers();
+        }
+
+        // Function to show Blood Availability Section
+        function showBloodAvailability() {
+            document.getElementById("blood-availability-section").style.display = "block";
+            document.getElementById("donors-section").style.display = "none";
+            document.getElementById("receivers-section").style.display = "none";
+            toggleDashboard(); // Hide the menu after selecting
+            fetchBloodAvailability();
+        }
+
+        // Function to handle blood availability update
+        function updateBloodAvailability() {
+            // Placeholder logic for updating blood availability
+            // This could be an API call to update the data in the backend
+            fetch('/api/update-blood-availability', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({}) // Send any data if required
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Blood availability updated successfully!');
+                    fetchBloodAvailability(); // Re-fetch and update chart
+                } else {
+                    alert('Failed to update blood availability.');
+                }
+            })
+            .catch(error => {
+                console.error('Error updating blood availability:', error);
+                alert('Error updating blood availability.');
+            });
+        }
+
+        // Function to fetch Blood Availability from MongoDB and display on a chart
+        function fetchBloodAvailability() {
+            fetch('/api/blood-availability')
+                .then(response => response.json())
+                .then(data => {
+                    const ctx = document.getElementById('blood-availability-chart').getContext('2d');
+                    new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: data.labels, // Blood types (e.g. A+, B+)
+                            datasets: [{
+                                label: 'Blood Available (in liters)',
+                                data: data.values, // Blood availability values
+                                backgroundColor: '#c9302c',
+                                borderColor: '#a4100b',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                })
+                .catch(error => console.error('Error fetching blood availability:', error));
+        }
+    </script>
+
+</body>
+</html>

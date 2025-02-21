@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donor Scheduling</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    background: linear-gradient(135deg, #e68871, #9b59b6);
+    position: relative;
+}
+
+.container {
+    max-width: 500px; /* Decreased from 650px */
+    width: 100%;
+    background-color: #fff;
+    padding: 15px 20px; /* Decreased padding */
+    border-radius: 5px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15); /* Slightly reduced shadow */
+    text-align: center;
+}
+
+h2 {
+    font-size: 18px; /* Decreased font size */
+    margin: 15px 0; /* Decreased margin */
+}
+
+input, select, button {
+    width: 100%;
+    margin: 8px 0; /* Decreased margin */
+    padding: 8px; /* Decreased padding */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px; /* Decreased font size */
+}
+
+button {
+    background-color: #d9534f;
+    color: white;
+    font-size: 16px; /* Decreased font size */
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    transition: 0.3s;
+}
+
+button:hover {
+    background-color: #c9302c;
+}
+    </style>
+    <script>
+        function updateCamps() {
+            var city = document.getElementById("city").value;
+            var campSelect = document.getElementById("blood_camp");
+            campSelect.innerHTML = "";
+
+            var camps = {
+                "Dombivli": ["Plasma Blood Bank", "Jeevan Jyoti Blood Camp"],
+                "Mumbai": ["Mumbai Blood Donation Center", "Sion Blood Bank"],
+                "Pune": ["Pune Blood Donation Camp", "Sahyadri Blood Bank"],
+                "Nagpur": ["Nagpur Blood Donation Camp", "Orange City Blood Bank"],
+                "Nashik": ["Nashik Blood Donation Camp", "Godavari Blood Bank"],
+                "Aurangabad": ["Aurangabad Blood Bank", "Marathwada Blood Camp"],
+                "Solapur": ["Solapur Blood Donation Camp", "Shivneri Blood Bank"],
+                "Thane": ["Thane Blood Donation Camp", "Metro Blood Bank"],
+                "Kolhapur": ["Kolhapur Blood Donation Camp", "Maha Blood Bank"],
+                "Satara": ["Satara Blood Donation Camp", "Satara Blood Bank"],
+                "Chandrapur": ["Chandrapur Blood Donation Camp", "Chandrapur Blood Bank"],
+                "Ratnagiri": ["Ratnagiri Blood Donation Camp", "Ratnagiri Blood Bank"],
+                "Bhandara": ["Bhandara Blood Donation Camp", "Bhandara Blood Bank"],
+                "Beed": ["Beed Blood Donation Camp", "Beed Blood Bank"],
+                "Yavatmal": ["Yavatmal Blood Donation Camp", "Yavatmal Blood Bank"],
+                "Jalgaon": ["Jalgaon Blood Donation Camp", "Jalgaon Blood Bank"],
+                "Hingoli": ["Hingoli Blood Donation Camp", "Hingoli Blood Bank"],
+                "Sindhudurg": ["Sindhudurg Blood Donation Camp", "Sindhudurg Blood Bank"],
+                "Osmanabad": ["Osmanabad Blood Donation Camp", "Osmanabad Blood Bank"],
+                "Washim": ["Washim Blood Donation Camp", "Washim Blood Bank"],
+                "Chiplun": ["Chiplun Blood Donation Camp", "Chiplun Blood Bank"],
+                "Palghar": ["Palghar Blood Donation Camp", "Palghar Blood Bank"],
+                "Akola": ["Akola Blood Donation Camp", "Akola Blood Bank"],
+                "Wardha": ["Wardha Blood Donation Camp", "Wardha Blood Bank"]
+            };
+            
+            if (camps[city]) {
+                camps[city].forEach(function(camp) {
+                    var option = document.createElement("option");
+                    option.value = camp;
+                    option.textContent = camp;
+                    campSelect.appendChild(option);
+                });
+            } else {
+                var option = document.createElement("option");
+                option.value = "";
+                option.textContent = "No camps available";
+                campSelect.appendChild(option);
+            }
+        }
+
+        function scheduleDonation(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Get form data
+            const city = document.getElementById("city").value;
+            const bloodCamp = document.getElementById("blood_camp").value;
+            const bloodGroup = document.getElementById("blood_group").value;
+            const date = document.getElementById("date").value;
+            const time = document.getElementById("time").value;
+
+            // Create appointment object
+            const appointment = {
+                date: date,
+                hospital: bloodCamp,
+                time: time,
+                status: 'Pending'
+            };
+
+            // Retrieve existing appointments from localStorage
+            const appointments = JSON.parse(localStorage.getItem('appointments')) || [];
+            appointments.push(appointment); // Add new appointment
+
+            // Save updated appointments back to localStorage
+            localStorage.setItem('appointments', JSON.stringify(appointments));
+
+            // Redirect to the home page
+            window.location.href = 'donorHomePage.html';
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h2>Schedule Your Blood Donation</h2>
+        <form onsubmit="scheduleDonation(event)">
+            <label for="city">Select Your City:</label>
+            <select id="city" name="city" required onchange="updateCamps()">
+                <option value="">Select a city</option>
+                <option value="Dombivli">Dombivli</option>
+                <option value="Mumbai">Mumbai</option>
+                <option value="Pune">Pune</option>
+                <option value="Nagpur">Nagpur</option>
+                <option value="Nashik">Nashik</option>
+                <option value="Aurangabad">Aurangabad</option>
+                <option value="Solapur">Solapur</option>
+                <option value="Thane">Thane</option>
+                <option value="Kolhapur">Kolhapur</option>
+                <option value="Satara">Satara</option>
+                <option value="Chandrapur">Chandrapur</option>
+                <option value="Ratnagiri">Ratnagiri</option>
+                <option value="Bhandara">Bhandara</option>
+                <option value="Beed">Beed</option>
+                <option value="Yavatmal">Yavatmal</option>
+                <option value="Jalgaon">Jalgaon</option>
+                <option value="Hingoli">Hingoli</option>
+                <option value="Sindhudurg">Sindhudurg</option>
+                <option value="Osmanabad">Osmanabad</option>
+                <option value="Washim">Washim</option>
+                <option value="Chiplun">Chiplun</option>
+                <option value="Palghar">Palghar</option>
+                <option value="Akola">Akola</option>
+                <option value="Wardha">Wardha</option>
+            </select>
+
+            <label for="blood_camp">Find Nearby Blood Bank:</label>
+            <select id="blood_camp" name="blood_camp" required>
+                <option value="">Select a city first</option>
+            </select>
+            
+            <label for="blood_group">Select Your Blood Group:</label>
+            <select id="blood_group" name="blood_group" required>
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="O+">O+</option>
+                <option value="O-">O-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
+            </select>
+
+            <label for="date">Select Date:</label>
+            <input type="date" id="date" name="date" required>
+
+            <label for="time">Select Time:</label>
+            <input type="time" id="time" name="time" required>
+
+            <button type="submit">Schedule Donation</button>
+        </form>
+    </div>
+</body>
+</html>
