@@ -18,6 +18,13 @@ const static_path = path.join(__dirname, "../public");
 const templates_path = path.join(__dirname, "../templates/views");
 const partials_path = path.join(__dirname, "../templates/partials");
 
+app.use(express.urlencoded({ extended: true }));
+app.use(session({ secret: 'your-secret', resave: false, saveUninitialized: true }));
+const flash = require('connect-flash'); // Require connect-flash
+app.use(flash()); // Initialize flash
+
+let appointments = []; // In-memory storage for appointments
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(static_path));
@@ -110,8 +117,33 @@ app.get("/terms", (req, res) => {
     res.render("terms");
 });
 
-app.get("/hospital-dashboard", (req, res) => {
-    res.render("hospital-dashboard");
+app.get("/hospital-dashboard", async (req, res) => {
+    try {
+        const donors = await Donor.find(); // Fetch all donors
+        const appointments = donors.flatMap(donor => donor.appointments.map(appointment => ({
+            donorName: donor.fullname,
+            bloodGroup: donor.bloodGroup, // Assuming bloodGroup is a field in the Donor model
+            contactNumber: donor.phone, // Assuming phone is the contact number
+            date: appointment.date,
+            time: appointment.time,
+            status: appointment.status
+        }))); // Flatten appointments from all donors with additional details
+
+        const receivers = await Register.find(); // Fetch all receivers
+        const receiverRequests = receivers.map(receiver => ({
+            receiverName: receiver.full_name,
+            bloodGroup: receiver.blood_groups, // Assuming blood_groups is a field in the Register model
+            contactNumber: receiver.mob_no, // Assuming mob_no is the contact number
+            date: receiver.appointmentDate, // Ensure this field exists in the Register model
+            time: receiver.appointmentTime // Ensure this field exists in the Register model
+        }));
+
+        res.render("hospital-dashboard", { appointments, receiverRequests }); // Pass appointments and receiverRequests to the template
+
+    } catch (error) {
+        console.error("Error fetching appointments:", error);
+        res.status(500).send("Error fetching appointments");
+    }
 });
 
 // Fetch hospital records
@@ -167,12 +199,59 @@ app.get("/reset-password", (req, res) => {
     res.render("reset-password");
 });
 
-app.get("/donorHomePage", (req, res) => {
-    res.render("donorHomePage");
+app.get("/donorHomePage", async (req, res) => {
+    if (req.isAuthenticated()) {
+        try {
+            const donor = await Donor.findById(req.user._id);
+            res.render("donorHomePage", { appointments: donor.appointments });
+        } catch (error) {
+            console.error("Error fetching appointments:", error);
+            res.status(500).send("Error fetching appointments");
+        }
+    } else {
+        res.redirect('/signin');
+    }
 });
 
-app.get("/donor-scheduling", (req, res) => {
-    res.render("donor-scheduling");
+app.get("/donor-scheduling", async (req, res) => {
+    if (req.isAuthenticated()) {
+        try {
+            const donor = await Donor.findById(req.user._id);
+            const hospitals = await Hospital.find({}, 'hospital_name city');
+            res.render("donor-scheduling", { 
+                appointments: donor.appointments,
+                hospitals: hospitals 
+            });
+        } catch (error) {
+            console.error("Error fetching data:", error);
+            res.status(500).send("Error fetching data");
+        }
+    } else {
+        res.redirect('/signin');
+    }
+});
+
+app.post('/schedule-appointment', async (req, res) => {
+    const { city, blood_camp, blood_group, date, time } = req.body;
+    const appointment = {
+        date,
+        hospital: blood_camp,
+        time,
+        status: 'Scheduled' // You can set the status as needed
+    };
+    try {
+        const donor = await Donor.findById(req.user._id);
+        donor.appointments.push(appointment);
+        await donor.save();
+        res.redirect('/donorHomePage'); // Redirect to donor home page
+    } catch (error) {
+        console.error("Error scheduling appointment:", error);
+        res.status(500).send("Error scheduling appointment");
+    }
+});
+
+app.get('/donor-home', (req, res) => {
+    res.render('donorHomePage', { appointments: req.session.appointments || [] });
 });
 
 // Create a new user in our database for receivers

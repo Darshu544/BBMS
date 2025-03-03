@@ -22,7 +22,14 @@ const donorSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true // Store the hashed password
-    }
+    },
+    appointments: [{
+        date: { type: Date, required: true },
+        hospital: { type: String, required: true },
+        time: { type: String, required: true },
+        status: { type: String, default: 'Pending' }
+    }]
+
 });
 
 // Creating a new collection for donors

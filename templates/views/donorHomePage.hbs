@@ -87,40 +87,32 @@
                     <th>Status</th>
                 </tr>
             </thead>
-            <tbody id="appointment-table-body">
-                <!-- Appointment rows will be populated here -->
-            </tbody>
+           <tbody id="appointment-table-body">
+    {{#if appointments.length}}
+        {{#each appointments}}
+        <tr>
+            <td>{{this.date}}</td>
+            <td>{{this.hospital}}</td>
+            <td>{{this.time}}</td>
+            <td>{{this.status}}</td>
+        </tr>
+        {{/each}}
+    {{else}}
+        <tr>
+            <td colspan="4" style="text-align:center">No appointments scheduled</td>
+        </tr>
+    {{/if}}
+</tbody>
+
         </table>
     </div>
 
     <script>
-        // Function to populate the appointment table
-        function populateAppointmentTable() {
-            const tableBody = document.getElementById('appointment-table-body');
-            tableBody.innerHTML = ''; // Clear existing rows
-
-            // Retrieve existing appointments from localStorage
-            const appointments = JSON.parse(localStorage.getItem('appointments')) || [];
-
-            appointments.forEach(appointment => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${appointment.date}</td>
-                    <td>${appointment.hospital}</td>
-                    <td>${appointment.time}</td>
-                    <td>${appointment.status}</td>
-                `;
-                tableBody.appendChild(row);
-            });
-        }
-
         // Function to handle scheduling an appointment
         function scheduleAppointment() {
             window.location.href = 'donor-scheduling'; // Redirect to the donor scheduling page
         }
-
-        // Populate the table on page load
-        window.onload = populateAppointmentTable;
     </script>
+
 </body>
 </html>

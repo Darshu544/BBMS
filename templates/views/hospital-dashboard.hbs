@@ -116,7 +116,6 @@
             color: white;
             text-align: center;
             border-radius: 5px;
-            text-decoration: none;
         }
 
         .back-button:hover {
@@ -207,12 +206,27 @@
                     <th>Blood Group</th>
                     <th>Contact Number</th>
                     <th>Appointment Date</th>
-                    <th>Appointment Day</th>
                     <th>Appointment Time</th>
                     <th>Action</th>
                 </tr>
             </thead>
-            <tbody></tbody>
+            <tbody>
+                {{#each appointments}}
+                <tr>
+                    <td>{{this.donorName}}</td>
+                    <td>{{this.bloodGroup}}</td>
+                    <td>{{this.contactNumber}}</td>
+                    <td>{{this.date}}</td>
+                    <td>{{this.time}}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="approve-button">Approve</button>
+                            <button class="reject-button">Reject</button>
+                        </div>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
         </table>
     </div>
 
@@ -228,12 +242,27 @@
                     <th>Blood Group</th>
                     <th>Contact Number</th>
                     <th>Appointment Date</th>
-                    <th>Appointment Day</th>
                     <th>Appointment Time</th>
                     <th>Action</th>
                 </tr>
             </thead>
-            <tbody></tbody>
+            <tbody>
+                {{#each receiverRequests}}
+                <tr>
+                    <td>{{this.receiverName}}</td>
+                    <td>{{this.bloodGroup}}</td>
+                    <td>{{this.contactNumber}}</td>
+                    <td>{{this.date}}</td>
+                    <td>{{this.time}}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="approve-button">Approve</button>
+                            <button class="reject-button">Reject</button>
+                        </div>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
         </table>
     </div>
 
